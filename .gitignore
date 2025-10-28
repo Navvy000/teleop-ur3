@@ -1,0 +1,40 @@
+# ROS2 build artifacts (outside this folder but safe to ignore)
+build/
+install/
+log/
+
+# Python cache and venv
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+*.ipynb_checkpoints
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local scripts or secrets
+*.local.sh
+*.secret.*
+
+# CoppeliaSim autosaves
+.CoppeliaSim/
+
+# Videos / large files (if not using LFS)
+videos/
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.tar
+*.tar.gz
+

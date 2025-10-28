@@ -1,0 +1,1 @@
+coppeliasim_zmqremoteapi_client==2.0.4
