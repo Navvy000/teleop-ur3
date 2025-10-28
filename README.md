@@ -35,7 +35,7 @@ package.xml, setup.py, setup.cfg, README.md, LICENSE, requirements.txt
 ```bash
 mkdir -p ~/ros2_ws_1/src
 cd ~/ros2_ws_1/src
-git clone https://github.com/Navvy000/teleop-ur3.git ur3_bridge_repo
+git clone https://github.com/Navvy000/teleop-ur3.git ur3_bridge
 cd ~/ros2_ws_1
 colcon build
 source install/setup.bash
@@ -59,16 +59,28 @@ source scripts/bringup.sh
 
 **Terminal A — UR3 Bridge (ROS → CoppeliaSim)**
 ```bash
+source ~/ros2venv/bin/activate
+source /opt/ros/jazzy/setup.bash
+export PYTHONPATH=$VIRTUAL_ENV/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:$PYTHONPATH
+source ~/ros2_ws_1/install/setup.bash
 ros2 run ur3_bridge bridge_node
 ```
 
 **Terminal B — Gamepad → /joy**
 ```bash
-ros2 run joy joy_node --ros-args   -p dev:=/dev/input/by-id/<your-F310-joystick-path>   -p deadzone:=0.05   -p autorepeat_rate:=50.0
+source ~/ros2venv/bin/activate
+source /opt/ros/jazzy/setup.bash
+export PYTHONPATH=$VIRTUAL_ENV/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:$PYTHONPATH
+source ~/ros2_ws_1/install/setup.bash
+ros2 run joy joy_node --ros-args   -p dev:=/dev/input/by-id/usb-Logitech_Gamepad_F310-event-joystick   -p deadzone:=0.05   -p autorepeat_rate:=50.0
 ```
 
 **Terminal C — /joy → /ur3_cmd**
 ```bash
+source ~/ros2venv/bin/activate
+source /opt/ros/jazzy/setup.bash
+export PYTHONPATH=$VIRTUAL_ENV/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:$PYTHONPATH
+source ~/ros2_ws_1/install/setup.bash
 ros2 run ur3_bridge gamepad_to_ur3_cmd
 ```
 
