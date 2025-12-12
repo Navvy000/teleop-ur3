@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+            schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+  <name>ur3e_haptic_scene</name>
+  <version>0.0.0</version>
+  <description>
+    Scene configuration package for UR3e haptic project.
+    Provides Gazebo world, MoveIt PlanningScene obstacles, and unified YAML configs.
+  </description>
+
+  <maintainer email="rookie@todo.todo">rookie</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- Python and ROS 2 essentials -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <!-- MoveIt / collision scene messages -->
+  <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>shape_msgs</exec_depend>
+
+  <!-- TF for getting tool0 pose in base_link -->
+  <exec_depend>tf2_ros</exec_depend>
+
+  <!-- For reading YAML obstacle config -->
+  <exec_depend>python3-yaml</exec_depend>
+
+  <!-- For get_package_share_directory -->
+  <exec_depend>ament_index_python</exec_depend>
+
+  <!-- Test dependencies (optional) -->
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+
+</package>
+

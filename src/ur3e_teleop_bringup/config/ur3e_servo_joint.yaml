@@ -1,0 +1,57 @@
+ur3e_servo:
+  ros__parameters:
+    moveit_servo:
+
+      ## Input command configuration ##
+      # Joint jog input topic
+      joint_command_in_topic: /ur3e_servo/joint_jog
+
+      # Keep Cartesian topic for future step 3 use
+      cartesian_command_in_topic: /ur3e_servo/cartesian_twist
+
+      # Command interpretation:
+      # - "speed_units": treat JointJog.velocities as real joint speed (rad/s)
+      # - "unitless":    Servo multiplies by scale.joint internally
+      command_in_type: "unitless"
+
+      # Scaling applied to unitless inputs
+      scale:
+        linear: 0.3        # m/s, reserved for future Cartesian control
+        rotational: 0.8    # rad/s, reserved for future Cartesian control
+        joint: 0.8         # rad/s when joystick axis=1; adjust as needed
+
+      low_pass_filter_coeff: 2.0
+
+  ## Output command configuration ##
+      command_out_topic: /scaled_joint_trajectory_controller/joint_trajectory
+      publish_period: 0.02          # 50 Hz
+      command_out_type: trajectory_msgs/JointTrajectory
+      publish_joint_positions: true
+      publish_joint_velocities: false
+      publish_joint_accelerations: false
+      low_latency_mode: true
+
+  ## JointState input ##
+      joint_topic: /joint_states
+
+  ## MoveIt model ##
+      move_group_name: ur_manipulator
+      planning_frame: base_link
+      ee_frame_name: tool0
+      robot_link_command_frame: base_link
+
+      is_primary_planning_scene_monitor: true
+      monitored_planning_scene_topic: /planning_scene
+
+  ## Safety ##
+      incoming_command_timeout: 0.1
+      num_outgoing_halt_msgs_to_publish: 4
+      halt_all_joints_in_cartesian_mode: true
+      halt_all_joints_in_joint_mode: true
+
+      lower_singularity_threshold: 0.05
+      hard_stop_singularity_threshold: 0.1
+      joint_limit_margin: 0.1
+
+  ## Collision checking ##
+      check_collisions: true

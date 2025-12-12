@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ur3e_teleop_bringup</name>
+  <version>0.0.1</version>
+  <description>Bringup and configuration for UR3e teleoperation (MoveIt Servo + Gazebo)</description>
+  <maintainer email="you@example.com">your_name</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Runtime dependencies for the launch files -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <!-- Nodes from ur3e_teleop_joy are launched from this package -->
+  <exec_depend>ur3e_teleop_joy</exec_depend>
+
+  <export>
+  </export>
+</package>
