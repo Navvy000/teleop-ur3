@@ -1,0 +1,36 @@
+staging_pose_executor:
+  ros__parameters:
+    # Pre-teleop staging joint pose for UR3e (radians)
+    #
+    # Purpose:
+    # - Move away from the default upright/straight configuration which may be
+    #   near-singular for Cartesian Servoing.
+    # - Provide a deterministic, reproducible initial posture before starting
+    #   joystick teleoperation.
+    group_name: ur_manipulator
+    joint_names:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    # A conservative, non-upright “folded” posture that tends to avoid the
+    # straight-arm / wrist-aligned singularities at startup.
+    # Units: radians. Keep within joint limits; adjust freely later.
+    # Conservative “sanity-check” posture for validation:
+    # - Only one joint makes a small move; others stay near the initial pose.
+    # - Goal: avoid collisions with the default obstacles while verifying the
+    #   staging action execution pipeline works end-to-end.
+    # NOTE: We'll tune to a better teleop posture later.
+    # Target staging pose (approx.) from MoveIt "Joints" tab screenshot (degrees):
+    # shoulder_pan=0, shoulder_lift=-110, elbow=91, wrist_1=-76, wrist_2=-90, wrist_3=0
+    # Converted to radians:
+    joint_positions: [0.0, -1.9199, 1.5882, -1.3265, -1.5708, 0.0]
+    goal_tolerance: 0.01
+    allowed_planning_time: 8.0
+    max_velocity_scaling: 0.5
+    max_acceleration_scaling: 0.5
+    execute: true
+    timeout_sec: 30.0
+    joint_states_timeout_sec: 10.0

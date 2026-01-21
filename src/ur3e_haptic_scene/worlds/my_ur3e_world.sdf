@@ -39,10 +39,12 @@
     <!--                      ADD OBSTACLE                         -->
     <!-- --------------------------------------------------------- -->
 
-    <!-- Obstacle box (size & pose should match obstacles.yaml) -->
-    <model name="obstacle_box">
+    <!-- Scene objects (pose/size should match config/obstacles.yaml) -->
+
+    <!-- box1 (obstacle) -->
+    <model name="obstacle_box1">
       <static>true</static>
-      <pose>0.5 0 0.2 0 0 0</pose> <!-- xyz rpy -->
+      <pose>0.40 0 0.20 0 0 0</pose> <!-- xyz rpy -->
 
       <link name="link">
         <collision name="collision">
@@ -62,6 +64,90 @@
           <material>
             <ambient>0.8 0.1 0.1 1</ambient>
             <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- box2 (obstacle) -->
+    <model name="obstacle_box2">
+      <static>true</static>
+      <pose>-0.25 -0.31 0.18 0 0 0</pose> <!-- xyz rpy -->
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.12 0.08 0.12</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.12 0.08 0.12</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- box3 (obstacle) -->
+    <model name="obstacle_box3">
+      <static>true</static>
+      <pose>0.25 0.31 0.18 0 0 0</pose> <!-- xyz rpy -->
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.08 0.14 0.08</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.08 0.14 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- target1 (target object, colored green) -->
+    <model name="target_box1">
+      <static>true</static>
+      <pose>-0.30 -0.055 0.22 0 0 0</pose> <!-- xyz rpy -->
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.06 0.06 0.12</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.06 0.06 0.12</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.8 0.1 1</ambient>
+            <diffuse>0.1 0.8 0.1 1</diffuse>
           </material>
         </visual>
       </link>

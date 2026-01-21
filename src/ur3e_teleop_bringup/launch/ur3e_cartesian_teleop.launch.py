@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, TimerAction, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, TimerAction, ExecuteProcess, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
 from launch_ros.actions import Node
@@ -11,13 +12,43 @@ import os
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
+    ur_type = LaunchConfiguration('ur_type')
+    launch_rviz = LaunchConfiguration('launch_rviz')
+
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
         description='Use simulation (Gazebo) clock if true',
     )
 
+    declare_ur_type = DeclareLaunchArgument(
+        'ur_type',
+        default_value='ur3e',
+        description='UR robot type for ur_simulation_gz (e.g. ur3e)',
+    )
+
+    declare_launch_rviz = DeclareLaunchArgument(
+        'launch_rviz',
+        default_value='true',
+        description='Launch RViz through UR MoveIt bringup',
+    )
+
     bringup_share = get_package_share_directory('ur3e_teleop_bringup')
+
+    # ================================
+    # 0. UR Gazebo + MoveIt bringup (robot_description, TF, move_group, RViz)
+    # ================================
+    ur_sim_share = get_package_share_directory('ur_simulation_gz')
+    ur_sim_moveit_launch = os.path.join(ur_sim_share, 'launch', 'ur_sim_moveit.launch.py')
+
+    ur_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(ur_sim_moveit_launch),
+        launch_arguments={
+            'ur_type': ur_type,
+            'use_sim_time': use_sim_time,
+            'launch_rviz': launch_rviz,
+        }.items(),
+    )
 
     # ================================
     # 1. Custom MoveIt Servo node (Twist mode)
@@ -105,6 +136,11 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     ld.add_action(declare_use_sim_time)
+    ld.add_action(declare_ur_type)
+    ld.add_action(declare_launch_rviz)
+
+    # Bringup must come first so Servo can read robot_description / PlanningScene
+    ld.add_action(ur_bringup)
     ld.add_action(servo_node)
     ld.add_action(joy_node)
     ld.add_action(cartesian_teleop_node)

@@ -14,6 +14,11 @@
   <!-- Nodes from ur3e_teleop_joy are launched from this package -->
   <exec_depend>ur3e_teleop_joy</exec_depend>
 
+  <!-- Staging pose helper node -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+
   <export>
   </export>
 </package>

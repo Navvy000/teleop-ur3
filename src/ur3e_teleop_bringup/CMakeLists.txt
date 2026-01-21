@@ -15,4 +15,11 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Install helper scripts (Python)
+install(
+  PROGRAMS
+    scripts/staging_pose_executor.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

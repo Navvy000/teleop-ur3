@@ -71,12 +71,12 @@ ur3e_servo:
       joint_limit_margins: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 
       ## Topic names
-  cartesian_command_in_topic: /ur3e_servo/cartesian_twist  # Ensure consistency with the launch file
+      cartesian_command_in_topic: /ur3e_servo/cartesian_twist  # Ensure consistency with the launch file
       joint_command_in_topic: ~/delta_joint_cmds      # Topic for incoming joint angle commands
       joint_topic: /joint_states
       status_topic: ~/status  # Publish status to this topic
 
-  # ⚠ Key change: send commands to Gazebo's ScaledJointTrajectoryController
+      # ⚠ Key change: send commands to Gazebo's ScaledJointTrajectoryController
       command_out_topic: /scaled_joint_trajectory_controller/joint_trajectory
       
       ## Collision checking for the entire robot body

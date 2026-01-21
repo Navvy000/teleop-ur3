@@ -50,27 +50,32 @@ class AddObstacles(Node):
             rclpy.shutdown()
             return
 
-    # Only handle the box1 obstacle entry for now
-        box_cfg = obstacles.get("box1", None)
-        if box_cfg is None:
-            self.get_logger().error("No 'box1' entry in obstacles.yaml.")
+        if len(obstacles) == 0:
+            self.get_logger().error("No obstacles found in obstacles.yaml.")
             rclpy.shutdown()
             return
 
     # Wait until /planning_scene has subscribers (typically move_group)
         self._wait_for_subscribers()
 
-    # Build the CollisionObject
-        collision_obj = self._make_box_collision_object("box1", box_cfg)
+    # Build CollisionObjects for all entries
+        collision_objects = []
+        for obj_id, cfg in obstacles.items():
+            try:
+                collision_objects.append(self._make_box_collision_object(obj_id, cfg))
+            except Exception as e:
+                self.get_logger().error(f"Failed to construct CollisionObject for '{obj_id}': {e}")
 
     # Populate a PlanningScene diff message
         scene = PlanningScene()
         scene.is_diff = True
-        scene.world.collision_objects.append(collision_obj)
+        scene.world.collision_objects.extend(collision_objects)
 
     # Publish once
         self._pub.publish(scene)
-        self.get_logger().info("Published PlanningScene diff with 'box1' obstacle.")
+        self.get_logger().info(
+            f"Published PlanningScene diff with {len(collision_objects)} object(s): {list(obstacles.keys())}"
+        )
 
     # Wait briefly to ensure the message is sent
         time.sleep(1.0)

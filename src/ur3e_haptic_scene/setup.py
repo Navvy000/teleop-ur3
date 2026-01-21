@@ -40,6 +40,7 @@ setup(
             # Note: scripts are provided from the scripts subpackage
             'add_obstacles = ur3e_haptic_scene.scripts.add_obstacles:main',
             'virtual_force = ur3e_haptic_scene.scripts.virtual_force_node:main',
+            'target_selector = ur3e_haptic_scene.scripts.target_selector:main',
         ],
     },
 )
