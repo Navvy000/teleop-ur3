@@ -81,6 +81,8 @@ class UR3eCartesianTeleop(Node):
         self.axis_right_y = p('axis_right_y', 4).value
         self.axis_lt      = p('axis_lt', 2).value
         self.axis_rt      = p('axis_rt', 5).value
+        self.axis_dpad_x  = p('axis_dpad_x', 6).value
+        self.dpad_angular_speed = p('dpad_angular_speed', 0.8).value
 
         self.last_pressed = False
 
@@ -175,6 +177,7 @@ class UR3eCartesianTeleop(Node):
         raw_ry = self._get_axis(axes, self.axis_right_y, "axis_right_y")
         raw_lt = self._get_axis(axes, self.axis_lt,      "axis_lt")
         raw_rt = self._get_axis(axes, self.axis_rt,      "axis_rt")
+        raw_dpad_x = self._get_axis(axes, self.axis_dpad_x, "axis_dpad_x")
 
         lx = clip_deadzone(raw_lx, self.deadzone)
         ly = clip_deadzone(raw_ly, self.deadzone)
@@ -183,16 +186,32 @@ class UR3eCartesianTeleop(Node):
         lt = clip_deadzone(raw_lt, self.deadzone)
         rt = clip_deadzone(raw_rt, self.deadzone)
 
+        # D-pad usually snaps to -1/0/1; treat as digital for yaw.
+        dpad_left = raw_dpad_x < -0.5
+        dpad_right = raw_dpad_x > 0.5
+
         # ----------------------------
         # Map joystick axes to velocity components
         # ----------------------------
-        vx = -ly * self.linear_scale
-        vy =  lx * self.linear_scale
+        # Left stick mapping in tool0 frame:
+        #   push forward (ly < 0) -> +Y translation
+        #   push left    (lx < 0) -> +X translation
+        vx = -lx * self.linear_scale
+        vy = -ly * self.linear_scale
         vz = (rt - lt) * self.linear_scale
 
-        wx = 0.0
-        wy = -ry * self.angular_scale
-        wz =  rx * self.angular_scale
+        # Right stick -> roll/pitch (swapped):
+        #   up/down controls roll (X), left/right controls pitch (Y)
+        # D-pad -> yaw
+        wx = -ry * self.angular_scale   # roll around tool0 X (from vertical axis)
+        wy =  rx * self.angular_scale   # pitch around tool0 Y (from horizontal axis)
+
+        if dpad_left and not dpad_right:
+            wz = -float(self.dpad_angular_speed)
+        elif dpad_right and not dpad_left:
+            wz = float(self.dpad_angular_speed)
+        else:
+            wz = 0.0
 
         # ----------------------------
         # Speed limiting

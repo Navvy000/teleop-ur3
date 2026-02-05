@@ -123,7 +123,6 @@ def generate_launch_description():
         condition=IfCondition(run_staging),
     )
 
-
     # ---------------------------------------------------------------------
     # Launch arguments
     # ---------------------------------------------------------------------
@@ -158,7 +157,6 @@ def generate_launch_description():
             description="If true, publish obstacles.yaml into MoveIt PlanningScene",
         )
     )
-
 
     # Staging args
     declared_arguments.append(
