@@ -54,6 +54,31 @@ Integrated bringup (simulation + MoveIt/Servo + teleop + APF + staging):
 ros2 launch ur3e_teleop_bringup ur3e_world_moveit_teleop_apf.launch.py
 ```
 
+## Virtuose input (Cartesian, recommended)
+
+This project can accept Virtuose as the input device via the ROS2 wrapper in
+`/home/rookie/Virtuose/ROS2_RaptorAPI_807b5d6_20250718/ROS2_RaptorAPI`.
+
+High-level flow:
+
+1) Start the Virtuose wrapper node and switch to admittance mode.
+2) Launch the UR3e simulation + MoveIt Servo + Virtuose bridge.
+
+Bringup entry:
+
+```bash
+ros2 launch ur3e_teleop_bringup ur3e_world_moveit_virtuose.launch.py
+```
+
+Bridge configuration:
+
+- `ur3e_virtuose_bridge/config/virtuose_bridge.yaml`
+- Topics consumed: `/out_virtuose_speed`, `/out_virtuose_status`
+- Topic produced: `/ur3e_servo/cartesian_twist`
+
+Safety: the bridge requires deadman and `STATE_CART_ADM` by default. Adjust in
+the YAML if your Virtuose button wiring differs.
+
 This launch is composed of two layers:
 
 1) **Bringup layer**: `ur3e_world_moveit_teleop.launch.py`

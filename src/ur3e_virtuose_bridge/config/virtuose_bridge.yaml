@@ -1,0 +1,32 @@
+ur3e_virtuose_bridge:
+  ros__parameters:
+    # Input topics from Virtuose
+    speed_topic: /out_virtuose_speed
+    status_topic: /out_virtuose_status
+
+    # Output to MoveIt Servo
+    twist_topic: /ur3e_servo/cartesian_twist
+    command_frame: tool0
+
+    # Safety and gating
+    require_state: [5]        # STATE_CART_ADM
+    deadman_mask: 2           # bit 1
+    enable_deadman: true
+    enable_status_gate: true
+    timeout_ms: 50.0
+
+    # Axis mapping (output axis index -> input axis index)
+    linear_map: [0, 1, 2]
+    angular_map: [0, 1, 2]
+
+    # Axis sign correction
+    linear_sign: [1.0, 1.0, 1.0]
+    angular_sign: [1.0, 1.0, 1.0]
+
+    # Scaling
+    linear_scale: 0.2
+    angular_scale: 0.5
+
+    # Limits
+    max_linear_speed: 0.25
+    max_angular_speed: 1.0
