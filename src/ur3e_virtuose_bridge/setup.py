@@ -9,7 +9,7 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/config', ['config/virtuose_bridge.yaml']),
+        ('share/' + package_name + '/config', ['config/virtuose_bridge.yaml', 'config/virtuose_force_bridge.yaml']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,6 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'virtuose_bridge = ur3e_virtuose_bridge.virtuose_bridge:main',
+            'virtuose_force_bridge = ur3e_virtuose_bridge.virtuose_force_bridge:main',
         ],
     },
 )

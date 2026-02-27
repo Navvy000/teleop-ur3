@@ -79,6 +79,28 @@ Bridge configuration:
 Safety: the bridge requires deadman and `STATE_CART_ADM` by default. Adjust in
 the YAML if your Virtuose button wiring differs.
 
+## Virtuose force feedback (APF virtual force)
+
+This mode feeds the APF virtual force (`/virtual_force`) back to Virtuose in
+impedance mode. It uses a dedicated bridge that calls `virtuose_impedance` and
+publishes `in_virtuose_force`.
+
+Bringup entry:
+
+```bash
+ros2 launch ur3e_teleop_bringup ur3e_world_moveit_virtuose_apf_force.launch.py
+```
+
+Bridge configuration:
+
+- `ur3e_virtuose_bridge/config/virtuose_force_bridge.yaml`
+- Inputs: `/virtual_force`, `/out_virtuose_status`
+- Output: `in_virtuose_force`
+
+Note: you must calibrate the Virtuose device and ensure the impedance service
+is available. The bridge will request impedance mode automatically using the
+parameters in the YAML.
+
 This launch is composed of two layers:
 
 1) **Bringup layer**: `ur3e_world_moveit_teleop.launch.py`

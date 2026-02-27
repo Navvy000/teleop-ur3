@@ -1,0 +1,38 @@
+ur3e_virtuose_force_bridge:
+  ros__parameters:
+    # Inputs
+    force_topic: /virtual_force
+    status_topic: /out_virtuose_status
+
+    # Virtuose impedance service (must be available)
+    impedance_service: /virtuose_impedance
+    channel: SimpleChannelUDP
+    ff_device_ip_address: 192.168.100.53
+    ff_device_param_file: /home/rookie/Virtuose/virtuose_6D_n192.param
+    local_ip_address: 192.168.100.10
+
+    # Impedance request tuning
+    speed_factor: 1.0
+    force_factor: 1.0
+    max_force: 12.0
+    max_torque: 1.5
+    power_enable: true
+
+    base_translation: [0.0, 0.0, 0.0]
+    base_rotation: [0.0, 0.0, 0.0, 1.0]
+
+    # Safety and gating
+    require_state: [4]        # STATE_CART_IMP
+    deadman_mask: 2           # bit 1
+    enable_deadman: true
+    enable_status_gate: true
+    timeout_ms: 50.0
+
+    # Scaling and mapping
+    force_scale: 0.2
+    torque_scale: 0.2
+    force_sign: [1.0, 1.0, 1.0]
+    torque_sign: [1.0, 1.0, 1.0]
+
+    # Filtering
+    lowpass_alpha: 0.8
