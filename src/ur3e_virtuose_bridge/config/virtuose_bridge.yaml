@@ -9,7 +9,7 @@ ur3e_virtuose_bridge:
     command_frame: tool0
 
     # Safety and gating
-    require_state: [5]        # STATE_CART_ADM
+    require_state: [4]        # STATE_CART_IMP
     deadman_mask: 2           # bit 1
     enable_deadman: true
     enable_status_gate: true

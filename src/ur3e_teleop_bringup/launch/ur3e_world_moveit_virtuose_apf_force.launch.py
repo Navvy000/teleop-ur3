@@ -77,8 +77,17 @@ def generate_launch_description():
         ],
     )
 
-    # Virtuose force bridge
+    # Virtuose bridges (motion + force)
     bridge_share = get_package_share_directory("ur3e_virtuose_bridge")
+    bridge_config = os.path.join(bridge_share, "config", "virtuose_bridge.yaml")
+    bridge_node = Node(
+        package="ur3e_virtuose_bridge",
+        executable="virtuose_bridge",
+        name="ur3e_virtuose_bridge",
+        output="screen",
+        parameters=[bridge_config, {"use_sim_time": use_sim_time}],
+    )
+
     force_bridge_config = os.path.join(bridge_share, "config", "virtuose_force_bridge.yaml")
     force_bridge_node = Node(
         package="ur3e_virtuose_bridge",
@@ -114,6 +123,7 @@ def generate_launch_description():
     ld.add_action(sim_and_moveit)
     ld.add_action(servo_node)
     ld.add_action(virtual_force_node)
+    ld.add_action(bridge_node)
     ld.add_action(force_bridge_node)
     ld.add_action(switch_command_type)
 
